@@ -1,0 +1,15 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:latest
+    container_name: products_postgres
+    env_file:
+      - ./.envs/.local/.postgres
+    volumes:
+      - products_db:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+
+volumes:
+  products_db:
