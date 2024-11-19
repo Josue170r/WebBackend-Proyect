@@ -12,13 +12,13 @@ import java.util.List;
 /*
 Endpoints disponibles:
 
-POST /api/proveedores - Crear proveedor
-PUT /api/proveedores/{id} - Actualizar proveedor
-DELETE /api/proveedores/{id} - Eliminar proveedor
-GET /api/proveedores/{id} - Obtener proveedor por ID
-GET /api/proveedores - Listar todos los proveedores
-PATCH /api/proveedores/{id}/activar - Activar proveedor
-PATCH /api/proveedores/{id}/desactivar - Desactivar proveedor
+POST /api/v1/proveedores - Crear proveedor
+PUT /api/v1/proveedores/{id} - Actualizar proveedor
+DELETE /api/v1/proveedores/{id} - Eliminar proveedor
+GET /api/v1/proveedores/{id} - Obtener proveedor por ID
+GET /api/v1/proveedores - Listar todos los proveedores
+PATCH /api/v1/proveedores/{id}/activar - Activar proveedor
+PATCH /api/v1/proveedores/{id}/desactivar - Desactivar proveedor
  */
 
 @RestController
