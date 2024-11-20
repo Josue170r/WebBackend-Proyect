@@ -2,8 +2,8 @@ package org.example.proyecto_productos.Proveedores.controller;
 
 import lombok.RequiredArgsConstructor;
 //to do
-import org.example.proyecto_productos.domain.entities.Proveedores;
-import org.example.proyecto_productos.service.ProveedoresService;
+import org.example.proyecto_productos.Proveedores.models.Proveedores;
+import org.example.proyecto_productos.Proveedores.service.ProveedoresService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
