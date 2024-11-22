@@ -17,8 +17,8 @@ import lombok.NoArgsConstructor;
 public class Categoria {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY) // Para valores autoincrementales
-    private Integer idCategoria;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long idCategoria;
 
     @NotBlank(message = "La descripción no puede estar vacía")
     @Size(max = 100, message = "La descripción no debe exceder los 100 caracteres")
