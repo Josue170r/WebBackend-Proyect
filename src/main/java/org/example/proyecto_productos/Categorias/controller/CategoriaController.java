@@ -26,6 +26,7 @@ public class CategoriaController {
     @ResponseStatus(HttpStatus.OK)
     public Categoria buscarCategoriaPorId(@PathVariable Integer id) {
         return service.readCategoria(id);
+        ///
     }
 
     @PostMapping("/categorias")
