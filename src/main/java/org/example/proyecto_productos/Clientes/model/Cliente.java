@@ -9,9 +9,11 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.proyecto_productos.Carrito.models.Carrito;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.Set;
 
 @Data
 @NoArgsConstructor
@@ -22,7 +24,7 @@ import java.util.Date;
 public class Cliente implements Serializable {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private Integer idCliente;
+    private Long idCliente;
 
     @NotBlank(message = "El email no puede estar vacío")
     @Email(message = "El formato de email es inválido")
@@ -69,4 +71,12 @@ public class Cliente implements Serializable {
     @Temporal(TemporalType.DATE)
     @Column(name = "fechaNacimiento", nullable = false)
     private Date fechaNacimiento;
+
+    @ManyToMany
+    @JoinTable(
+        name = "Cliente_Carrito",
+        joinColumns = @JoinColumn(name = "idCliente"),
+        inverseJoinColumns = @JoinColumn(name = "idCarrito")
+    )
+    private Set<Carrito> carritos;
 }
