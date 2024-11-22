@@ -3,6 +3,7 @@ package org.example.proyecto_productos.Clientes.model;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,7 +21,7 @@ import java.util.Date;
 @Table(name = "Clientes")
 public class Cliente implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer idCliente;
 
     @NotBlank(message = "El email no puede estar vacío")
@@ -44,11 +45,24 @@ public class Cliente implements Serializable {
     @Column(name = "apellidos", length = 100, nullable = false)
     private String apellidos;
 
-    @NotBlank(message = "La dirección no puede estar vacía")
-    @Size(max = 200, message = "La dirección no debe exceder los 200 caracteres")
-    @Column(name = "direccion", length = 200, nullable = false)
-    private String direccion;
+    @NotBlank(message = "La calle no puede estar vacía")
+    @Column(name = "calle", length = 255, nullable = false)
+    private String calle;
 
+    @NotBlank(message = "La colonia no puede estar vacía")
+    @Column(name = "colonia", length = 255, nullable = false)
+    private String colonia;
+
+    @Column(name = "numero", nullable = false)
+    private Integer numero;
+
+    @NotBlank(message = "El código postal no puede estar vacío")
+    @Pattern(regexp = "^\\d{5}$", message = "El código postal debe tener 5 dígitos")
+    @Column(name = "codigo_postal", length = 5, nullable = false)
+    private String codigoPostal;
+
+    @NotBlank(message = "El teléfono no puede estar vacío")
+    @Pattern(regexp = "^\\d{10,12}$", message = "El teléfono debe tener entre 10 y 12 dígitos numéricos")
     @Column(name = "telefono", nullable = false)
     private Integer telefono;
 
