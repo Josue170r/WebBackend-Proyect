@@ -1,5 +1,6 @@
 package org.example.proyecto_productos.Clientes.service.impl;
 
+import org.example.proyecto_productos.Clientes.utils.Utils;
 import org.springframework.transaction.annotation.Transactional;
 import org.example.proyecto_productos.Clientes.model.Cliente;
 import org.example.proyecto_productos.Clientes.repository.ClienteRepository;
@@ -14,6 +15,8 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Autowired
     private ClienteRepository repository;
+    @Autowired
+    private Utils utils;
 
     @Override
     @Transactional(readOnly = true)
@@ -30,6 +33,8 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     @Transactional
     public Cliente createCliente(Cliente cliente) {
+        String codifiedPass = utils.encriptar(cliente.getContrasena());
+        cliente.setContrasena(codifiedPass);
         return repository.save(cliente);
     }
 

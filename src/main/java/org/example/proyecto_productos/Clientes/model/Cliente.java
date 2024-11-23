@@ -66,7 +66,7 @@ public class Cliente implements Serializable {
     @NotBlank(message = "El teléfono no puede estar vacío")
     @Pattern(regexp = "^\\d{10,12}$", message = "El teléfono debe tener entre 10 y 12 dígitos numéricos")
     @Column(name = "telefono", nullable = false)
-    private Integer telefono;
+    private String telefono;
 
     @Temporal(TemporalType.DATE)
     @Column(name = "fechaNacimiento", nullable = false)
