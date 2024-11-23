@@ -1,5 +1,8 @@
 package org.example.proyecto_productos.Pedido.service.impl;
 
+import org.example.proyecto_productos.Pedido.model.Pedido;
+import org.example.proyecto_productos.Pedido.repository.PedidoRepository;
+import org.example.proyecto_productos.Pedido.service.PedidoService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
