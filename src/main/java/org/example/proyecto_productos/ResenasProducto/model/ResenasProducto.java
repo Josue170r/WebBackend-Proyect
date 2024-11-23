@@ -8,7 +8,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.proyecto_productos.Clientes.model.Cliente;
-
+import org.example.proyecto_productos.Productos.model.Productos;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -48,7 +48,7 @@ public class ResenasProducto implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProducto", nullable = false)
     @JsonIgnoreProperties(value = {"reseñasProducto", "handler", "hibernateLazyInitializer"}, allowSetters = true)
-    private Producto producto;
+    private Productos producto;
 
     @NotNull(message = "El cliente es obligatorio")
     @ManyToOne(fetch = FetchType.LAZY)
