@@ -8,6 +8,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.proyecto_productos.Clientes.model.Cliente;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -31,7 +32,7 @@ public class Pedido implements Serializable {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idCarrito", nullable = false)
     @JsonIgnoreProperties(value = {"pedidos", "handler", "hibernateLazyInitializer"}, allowSetters = true)
-    private CarritoDeCompras carrito;
+    private CarritoDeCompras carrito; //To do
 
     @NotNull(message = "El precio total no puede estar vacío")
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio total debe ser mayor a 0")
