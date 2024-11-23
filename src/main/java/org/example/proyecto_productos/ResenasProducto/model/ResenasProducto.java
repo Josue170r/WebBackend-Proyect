@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.proyecto_productos.Clientes.model.Cliente;
 
 import java.io.Serializable;
 import java.util.Date;
