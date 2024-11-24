@@ -24,8 +24,8 @@ public class ResenasProducto implements Serializable {
     private Long idResenaProducto;
 
     @NotBlank(message = "El comentario no puede estar vacío")
-    @Size(max = 500, message = "El comentario no debe exceder los 500 caracteres")
-    @Column(name = "comentario", length = 500, nullable = false)
+    @Size(max = 1100, message = "El comentario no debe exceder los 500 caracteres")
+    @Column(name = "comentario", length = 1100, nullable = false)
     private String comentario;
 
     @NotNull(message = "La fecha de la reseña no puede estar vacía")
@@ -40,8 +40,8 @@ public class ResenasProducto implements Serializable {
     private Double puntuacion;
 
     @NotBlank(message = "El nombre no puede estar vacío")
-    @Size(max = 100, message = "El nombre no debe exceder los 100 caracteres")
-    @Column(name = "nombre", length = 100, nullable = false)
+    @Size(max = 45, message = "El nombre no debe exceder los 100 caracteres")
+    @Column(name = "nombre", length = 45, nullable = false)
     private String nombre;
 
     @NotNull(message = "El producto es obligatorio")
