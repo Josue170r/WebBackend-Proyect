@@ -1,5 +1,6 @@
 package org.example.proyecto_productos.Productos.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.example.proyecto_productos.Proveedores.models.Proveedores;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 
 @Data
 @NoArgsConstructor
@@ -36,7 +38,7 @@ public class Productos implements Serializable {
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio unitario debe ser mayor a 0")
     @Digits(integer = 10, fraction = 2, message = "El precio unitario debe tener hasta 10 dígitos enteros y 2 decimales")
     @Column(name = "precioUnitario", nullable = false)
-    private Double precioUnitario;
+    private BigDecimal precioUnitario;
 
     @NotNull(message = "El stock no puede ser nulo")
     @Min(value = 0, message = "El stock no puede ser negativo")
@@ -45,6 +47,6 @@ public class Productos implements Serializable {
 
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "idProveedor", nullable = false)
-    @NotNull(message = "El proveedor no puede ser nulo")
+    @JsonIgnoreProperties(value = {"productos", "handler", "hibernateLazyInitializer"}, allowSetters = true)
     private Proveedores proveedor;
 }

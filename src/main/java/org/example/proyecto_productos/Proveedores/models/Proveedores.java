@@ -1,15 +1,15 @@
 package org.example.proyecto_productos.Proveedores.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
+import org.example.proyecto_productos.Productos.model.Productos;
 
 import java.io.Serializable;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -41,5 +41,27 @@ public class Proveedores implements Serializable {
 
     @Column(name = "activo", nullable = false)
     private Boolean activo; // Cambiado a Boolean para mayor claridad
+
+    @OneToMany(fetch = FetchType.LAZY, mappedBy = "proveedor")
+    @JsonIgnoreProperties(value = {"productos", "proveedor", "handler", "hibernateLazyInitializer"}, allowSetters = true)
+    private List<Productos> productos;
+
+    public void setProductos(List<Productos> productos) {
+        this.productos = productos;
+        for (Productos producto : productos) {
+            producto.setProveedor(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+        return "Proveedores{" +
+                "activo=" + activo +
+                ", urlProveedor='" + urlProveedor + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", nombreProveedor='" + nombreProveedor + '\'' +
+                ", idProveedor=" + idProveedor +
+                '}';
+    }
 }
 

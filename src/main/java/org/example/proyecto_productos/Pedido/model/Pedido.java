@@ -1,7 +1,6 @@
 package org.example.proyecto_productos.Pedido.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
@@ -11,6 +10,7 @@ import lombok.NoArgsConstructor;
 import org.example.proyecto_productos.Clientes.model.Cliente;
 
 import java.io.Serializable;
+import java.math.BigDecimal;
 import java.util.Date;
 
 @Data
@@ -28,17 +28,18 @@ public class Pedido implements Serializable {
     @Column(name = "numeroFolio", nullable = false, unique = true)
     private Integer numeroFolio;
 
-    @NotNull(message = "El carrito es obligatorio")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idCarrito", nullable = false)
-    @JsonIgnoreProperties(value = {"pedidos", "handler", "hibernateLazyInitializer"}, allowSetters = true)
-    private CarritoDeCompras carrito; //To do
+    //TODO
+//    @NotNull(message = "El carrito es obligatorio")
+//    @ManyToOne(fetch = FetchType.LAZY)
+//    @JoinColumn(name = "idCarrito", nullable = false)
+//    @JsonIgnoreProperties(value = {"pedidos", "handler", "hibernateLazyInitializer"}, allowSetters = true)
+//    private CarritoDeCompras carrito;
 
     @NotNull(message = "El precio total no puede estar vacío")
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio total debe ser mayor a 0")
     @Digits(integer = 10, fraction = 2, message = "El precio total debe tener un formato válido")
     @Column(name = "precioTotal", nullable = false)
-    private Double precioTotal;
+    private BigDecimal precioTotal;
 
     @NotNull(message = "La fecha de compra no puede estar vacía")
     @Temporal(TemporalType.DATE)

@@ -8,8 +8,9 @@ import java.util.List;
 
 public interface ClienteService {
     List<Cliente> readAllClientes();
-    Cliente readCliente(Integer id);
+    Cliente readCliente(Long id);
     Cliente createCliente(Cliente cliente);
-    void deleteCliente(Integer id);
+    Cliente actualizarCliente(Cliente cliente);
+    void deleteCliente(Long id);
 }
 

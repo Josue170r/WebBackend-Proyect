@@ -4,20 +4,29 @@ import lombok.RequiredArgsConstructor;
 import org.example.proyecto_productos.Productos.model.Productos;
 import org.example.proyecto_productos.Productos.repository.ProductosRepository;
 import org.example.proyecto_productos.Productos.service.ProductosService;
+import org.example.proyecto_productos.Proveedores.models.Proveedores;
+import org.example.proyecto_productos.Proveedores.repository.ProveedoresRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
 public class ProductosServiceImpl implements ProductosService {
 
     private final ProductosRepository productosRepository;
+    private final ProveedoresRepository proveedoresRepository;
 
     @Override
     @Transactional
     public Productos guardarProducto(Productos producto) {
+        Long idProveedor = producto.getProveedor().getIdProveedor();
+        Optional<Proveedores> optProveedor = proveedoresRepository.findById(idProveedor);
+        Proveedores proveedor = optProveedor
+                .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
+        producto.setProveedor(proveedor);
         return productosRepository.save(producto);
     }
 
