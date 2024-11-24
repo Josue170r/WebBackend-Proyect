@@ -29,8 +29,14 @@ public class CarritoController {
 
     @PostMapping("/carritos")
     @ResponseStatus(HttpStatus.CREATED)
-    public void guardarCarrito(@RequestBody Carrito carrito) {
-        service.createCarrito(carrito);
+    public Carrito guardarCarrito(@RequestBody Carrito carrito) {
+        return service.createCarrito(carrito);
+    }
+
+    @PutMapping("/carritos")
+    @ResponseStatus(HttpStatus.CREATED)
+    public Carrito actualizarCarrito(@RequestBody Carrito carrito) {
+        return service.createCarrito(carrito);
     }
 
     @DeleteMapping("/carritos/{id}")

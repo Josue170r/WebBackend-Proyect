@@ -26,7 +26,7 @@ public class ClienteServiceImpl implements ClienteService {
 
     @Override
     @Transactional(readOnly = true)
-    public Cliente readCliente(Integer id) {
+    public Cliente readCliente(Long id) {
         return repository.findById(id).orElse(null);
     }
 
@@ -38,9 +38,16 @@ public class ClienteServiceImpl implements ClienteService {
         return repository.save(cliente);
     }
 
+    @Override
+    public Cliente actualizarCliente(Cliente cliente) {
+        String codifiedPass = utils.encriptar(cliente.getContrasena());
+        cliente.setContrasena(codifiedPass);
+        return repository.save(cliente);
+    }
+
     @Transactional
     @Override
-    public void deleteCliente(Integer id) {
+    public void deleteCliente(Long id) {
         repository.deleteById(id);
     }
 }

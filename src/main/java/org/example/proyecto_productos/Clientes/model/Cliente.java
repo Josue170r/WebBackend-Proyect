@@ -1,18 +1,21 @@
 package org.example.proyecto_productos.Clientes.model;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
 import jakarta.validation.constraints.Size;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 import org.example.proyecto_productos.Carrito.models.Carrito;
+import org.example.proyecto_productos.Pedido.model.Pedido;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 
 @Data
@@ -72,11 +75,47 @@ public class Cliente implements Serializable {
     @Column(name = "fechaNacimiento", nullable = false)
     private Date fechaNacimiento;
 
+    @OneToMany(mappedBy = "idPedido")
+    private List<Pedido> pedidos;
+
     @ManyToMany
     @JoinTable(
-        name = "Cliente_Carrito",
-        joinColumns = @JoinColumn(name = "idCliente"),
-        inverseJoinColumns = @JoinColumn(name = "idCarrito")
+            name = "Cliente_Carrito",
+            joinColumns = @JoinColumn(name = "idCliente"),
+            inverseJoinColumns = @JoinColumn(name = "idCarrito")
     )
+    @JsonIgnoreProperties(value = {"clientes", "hibernateLazyInitializer"}, allowSetters = true)
     private Set<Carrito> carritos;
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Cliente)) return false;
+        Cliente cliente = (Cliente) o;
+        return Objects.equals(idCliente, cliente.idCliente) &&
+                Objects.equals(email, cliente.email);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(idCliente, email);
+    }
+
+    @Override
+    public String toString() {
+        return "Cliente{" +
+                "idCliente=" + idCliente +
+                ", email='" + email + '\'' +
+                ", contrasena='" + contrasena + '\'' +
+                ", nombre='" + nombre + '\'' +
+                ", apellidos='" + apellidos + '\'' +
+                ", calle='" + calle + '\'' +
+                ", colonia='" + colonia + '\'' +
+                ", numero=" + numero +
+                ", codigoPostal='" + codigoPostal + '\'' +
+                ", telefono='" + telefono + '\'' +
+                ", fechaNacimiento=" + fechaNacimiento +
+                ", pedidos=" + pedidos +
+                '}';
+    }
 }

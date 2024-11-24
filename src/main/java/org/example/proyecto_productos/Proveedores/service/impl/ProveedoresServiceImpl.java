@@ -19,7 +19,7 @@ public class ProveedoresServiceImpl implements ProveedoresService {
     @Override
     @Transactional
     public Proveedores guardarProveedor(Proveedores proveedor) {
-        proveedor.setActivo(1); // Por defecto activo
+        proveedor.setActivo(true); // Por defecto activo
         return proveedoresRepository.save(proveedor);
     }
 
@@ -64,7 +64,7 @@ public class ProveedoresServiceImpl implements ProveedoresService {
     @Transactional
     public void activarProveedor(Long id) {
         Proveedores proveedor = obtenerProveedorPorId(id);
-        proveedor.setActivo(1);
+        proveedor.setActivo(true);
         proveedoresRepository.save(proveedor);
     }
 
@@ -72,7 +72,7 @@ public class ProveedoresServiceImpl implements ProveedoresService {
     @Transactional
     public void desactivarProveedor(Long id) {
         Proveedores proveedor = obtenerProveedorPorId(id);
-        proveedor.setActivo(0);
+        proveedor.setActivo(false);
         proveedoresRepository.save(proveedor);
     }
 }
