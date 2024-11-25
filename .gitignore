@@ -31,3 +31,8 @@ build/
 
 ### VS Code ###
 .vscode/
+
+# Yugabyte CA Certificate
+build/
+# Asegurarse de ignorar root.crt
+src/main/resources/root.crt
