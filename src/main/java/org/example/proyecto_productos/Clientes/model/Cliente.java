@@ -37,8 +37,8 @@ public class Cliente implements Serializable {
 
     @NotBlank(message = "La contraseña no puede estar vacía")
     @Size(max = 200, message = "La contraseña no debe exceder los 200 caracteres")
-    @Column(name = "contrasena", length = 200, nullable = false)
-    private String contrasena;
+    @Column(name = "password", length = 200, nullable = false)
+    private String password;
 
     @NotBlank(message = "El nombre de usuario no puede estar vacío")
     @Size(max = 45, message = "El nombre de usuario no debe exceder los 45 caracteres")
@@ -80,6 +80,13 @@ public class Cliente implements Serializable {
     @Column(name = "fechaNacimiento", nullable = false)
     private Date fechaNacimiento;
 
+    @Column(name = "isVerified", nullable = false)
+    private Boolean isVerified = Boolean.FALSE;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "role", nullable = false)
+    private UserRole role;
+
     @OneToMany(mappedBy = "idPedido")
     private List<Pedido> pedidos;
 
@@ -111,7 +118,7 @@ public class Cliente implements Serializable {
         return "Cliente{" +
                 "idCliente=" + idCliente +
                 ", email='" + email + '\'' +
-                ", contrasena='" + contrasena + '\'' +
+                ", password='" + password + '\'' +
                 ", userName='" + userName + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +
