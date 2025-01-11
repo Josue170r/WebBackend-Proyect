@@ -33,7 +33,5 @@ build/
 .vscode/
 
 #.envs
-.envs/.local/.smtp
 !.envs/
 !.envs/**
-*.env
