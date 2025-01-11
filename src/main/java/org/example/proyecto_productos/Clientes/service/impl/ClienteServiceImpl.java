@@ -1,6 +1,9 @@
 package org.example.proyecto_productos.Clientes.service.impl;
 
 import org.example.proyecto_productos.Clientes.repository.ClienteRepository;
+import org.example.proyecto_productos.Clientes.tasks.ClientesEmailService;
+import org.example.proyecto_productos.TokenValidator.service.VerificationTokenService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -16,8 +19,16 @@ import java.util.Optional;
 public class ClienteServiceImpl implements ClienteService {
 
     private final ClienteRepository repository;
-    public ClienteServiceImpl(ClienteRepository repository) {
+
+    @Autowired
+    private final VerificationTokenService vericationService;
+
+    public ClienteServiceImpl(
+            ClienteRepository repository,
+            VerificationTokenService vericationService
+    ) {
         this.repository = repository;
+        this.vericationService = vericationService;
     }
 
     @Override
@@ -26,9 +37,9 @@ public class ClienteServiceImpl implements ClienteService {
         if (user.isPresent()) {
             Cliente objUser = user.get();
             return User.builder()
-                    .username(objUser.getUserName())
-                    .password(objUser.getContrasena())
-                    .build();
+                .username(objUser.getUserName())
+                .password(objUser.getPassword())
+                .build();
         } else {
             throw new UsernameNotFoundException(username);
         }
@@ -51,7 +62,9 @@ public class ClienteServiceImpl implements ClienteService {
     @Override
     @Transactional
     public Cliente createCliente(Cliente cliente) {
-        return repository.save(cliente);
+        Cliente savedCliente = repository.save(cliente);
+        vericationService.sendVerificationToken(cliente.getEmail());
+        return savedCliente;
     }
 
     @Override

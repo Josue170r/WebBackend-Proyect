@@ -30,23 +30,24 @@ public class AuthController {
     public Cliente login(@RequestBody LoginRequest loginRequest) {
         try {
             Authentication authentication = authenticationProvider.authenticate(
-                    new UsernamePasswordAuthenticationToken(
-                            loginRequest.getUsername(),
-                            loginRequest.getPassword()
-                    )
+                new UsernamePasswordAuthenticationToken(
+                    loginRequest.getUsername(),
+                    loginRequest.getPassword()
+                )
             );
             UserDetails userDetails = (UserDetails) authentication.getPrincipal();
             Cliente userResult = clienteService.findByUsername(userDetails.getUsername());
-            userResult.setContrasena(null);
+            userResult.setPassword(null);
             return userResult;
         } catch (AuthenticationException e) {
+            System.out.println(e.getMessage());
             throw new RuntimeException("Credenciales inválidas");
         }
     }
 
     @PostMapping(value = "/signup", consumes = "application/json")
     public Cliente createUser(@RequestBody Cliente cliente) {
-        cliente.setContrasena(passwordEncoder.encode(cliente.getContrasena()));
+        cliente.setPassword(passwordEncoder.encode(cliente.getPassword()));
         return clienteService.createCliente(cliente);
     }
 }

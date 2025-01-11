@@ -28,18 +28,6 @@ public class ClienteController {
         return service.readCliente(id);
     }
 
-    @PostMapping("/clientes")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Cliente guardarCliente(@RequestBody Cliente cliente) {
-        return service.createCliente(cliente);
-    }
-
-    @PutMapping("/clientes")
-    @ResponseStatus(HttpStatus.CREATED)
-    public Cliente actualizarCliente(@RequestBody Cliente cliente) {
-        return service.actualizarCliente(cliente);
-    }
-
     @DeleteMapping("/clientes/{id}")
     @ResponseStatus(HttpStatus.NO_CONTENT)
     public void eliminarCliente(@PathVariable Long id) {
