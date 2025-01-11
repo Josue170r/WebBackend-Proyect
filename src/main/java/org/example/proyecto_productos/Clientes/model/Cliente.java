@@ -40,6 +40,11 @@ public class Cliente implements Serializable {
     @Column(name = "contrasena", length = 200, nullable = false)
     private String contrasena;
 
+    @NotBlank(message = "El nombre de usuario no puede estar vacío")
+    @Size(max = 45, message = "El nombre de usuario no debe exceder los 45 caracteres")
+    @Column(name = "userName", length = 45, nullable = false)
+    private String userName;
+
     @NotBlank(message = "El nombre no puede estar vacío")
     @Size(max = 45, message = "El nombre no debe exceder los 45 caracteres")
     @Column(name = "nombre", length = 45, nullable = false)
@@ -107,6 +112,7 @@ public class Cliente implements Serializable {
                 "idCliente=" + idCliente +
                 ", email='" + email + '\'' +
                 ", contrasena='" + contrasena + '\'' +
+                ", userName='" + userName + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +
                 ", calle='" + calle + '\'' +
@@ -116,6 +122,7 @@ public class Cliente implements Serializable {
                 ", telefono='" + telefono + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
                 ", pedidos=" + pedidos +
+                ", carritos=" + carritos +
                 '}';
     }
 }
