@@ -10,7 +10,7 @@ public interface ProductosService {
     Productos obtenerProductoPorId(Long id);
     List<Productos> listarProductos();
     List<Productos> obtenerProductosPorProveedor(Long idProveedor);
-    //    List<Productos> obtenerProductosPorCategoria(Long idCategoria);
+    List<Productos> obtenerProductosPorCategoria(Long idCategoria);
     List<Productos> obtenerProductosConBajoStock(Integer stockMinimo);
     void actualizarStock(Long id, Integer cantidad);
 }

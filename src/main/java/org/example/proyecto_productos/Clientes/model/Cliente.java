@@ -1,8 +1,6 @@
 package org.example.proyecto_productos.Clientes.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
+import com.fasterxml.jackson.annotation.*;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
@@ -38,6 +36,7 @@ public class Cliente implements Serializable {
     @NotBlank(message = "La contraseña no puede estar vacía")
     @Size(max = 200, message = "La contraseña no debe exceder los 200 caracteres")
     @Column(name = "password", length = 200, nullable = false)
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     private String password;
 
     @NotBlank(message = "El nombre de usuario no puede estar vacío")
@@ -64,7 +63,7 @@ public class Cliente implements Serializable {
     private String colonia;
 
     @Column(name = "numero", nullable = false)
-    private Integer numero;
+    private String numero;
 
     @NotBlank(message = "El código postal no puede estar vacío")
     @Pattern(regexp = "^\\d{5}$", message = "El código postal debe tener 5 dígitos")
@@ -87,17 +86,9 @@ public class Cliente implements Serializable {
     @JoinColumn(name = "role", nullable = false)
     private UserRole role;
 
-    @OneToMany(mappedBy = "idPedido")
-    private List<Pedido> pedidos;
-
-    @ManyToMany
-    @JoinTable(
-            name = "Cliente_Carrito",
-            joinColumns = @JoinColumn(name = "idCliente"),
-            inverseJoinColumns = @JoinColumn(name = "idCarrito")
-    )
-    @JsonIgnoreProperties(value = {"clientes", "hibernateLazyInitializer"}, allowSetters = true)
-    private Set<Carrito> carritos;
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "cliente")
+    @JoinColumn(name = "carrito")
+    private Carrito carrito;
 
     @Override
     public boolean equals(Object o) {
@@ -118,7 +109,6 @@ public class Cliente implements Serializable {
         return "Cliente{" +
                 "idCliente=" + idCliente +
                 ", email='" + email + '\'' +
-                ", password='" + password + '\'' +
                 ", userName='" + userName + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", apellidos='" + apellidos + '\'' +
@@ -128,8 +118,6 @@ public class Cliente implements Serializable {
                 ", codigoPostal='" + codigoPostal + '\'' +
                 ", telefono='" + telefono + '\'' +
                 ", fechaNacimiento=" + fechaNacimiento +
-                ", pedidos=" + pedidos +
-                ", carritos=" + carritos +
                 '}';
     }
 }
