@@ -1,7 +1,8 @@
 package org.example.proyecto_productos.Clientes.service.impl;
 
+import org.example.proyecto_productos.Carrito.models.Carrito;
+import org.example.proyecto_productos.Carrito.service.CarritoService;
 import org.example.proyecto_productos.Clientes.repository.ClienteRepository;
-import org.example.proyecto_productos.Clientes.tasks.ClientesEmailService;
 import org.example.proyecto_productos.TokenValidator.service.VerificationTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.User;
@@ -23,12 +24,16 @@ public class ClienteServiceImpl implements ClienteService {
     @Autowired
     private final VerificationTokenService vericationService;
 
+    @Autowired
+    private final CarritoService carritoService;
+
     public ClienteServiceImpl(
             ClienteRepository repository,
-            VerificationTokenService vericationService
+            VerificationTokenService vericationService, CarritoService carritoService
     ) {
         this.repository = repository;
         this.vericationService = vericationService;
+        this.carritoService = carritoService;
     }
 
     @Override
@@ -63,6 +68,9 @@ public class ClienteServiceImpl implements ClienteService {
     @Transactional
     public Cliente createCliente(Cliente cliente) {
         Cliente savedCliente = repository.save(cliente);
+        Carrito carrito = new Carrito();
+        carrito.setCliente(savedCliente);
+        carritoService.createCarrito(carrito);
         vericationService.sendVerificationToken(cliente.getEmail());
         return savedCliente;
     }

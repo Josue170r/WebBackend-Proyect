@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.example.proyecto_productos.Categorias.model.Categoria;
 import org.example.proyecto_productos.Proveedores.models.Proveedores;
 
 import java.io.Serializable;
@@ -45,8 +46,17 @@ public class Productos implements Serializable {
     @Column(name = "stock", nullable = false)
     private Integer stock;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @NotBlank(message = "La URL de la imagen no puede estar vacía")
+    @Pattern(regexp = "^https://.*", message = "URL Inválida")
+    @Size(max = 255, message = "La URL de la imagen no puede superar los 255 caracteres")
+    @Column(name = "imagenUrl", length = 255, nullable = false)
+    private String imagenUrl;
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "categoria", nullable = false)
+    private Categoria categoria;
+
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "idProveedor", nullable = false)
-    @JsonIgnoreProperties(value = {"productos", "handler", "hibernateLazyInitializer"}, allowSetters = true)
     private Proveedores proveedor;
 }

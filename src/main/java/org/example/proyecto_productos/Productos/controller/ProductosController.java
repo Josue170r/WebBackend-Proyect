@@ -62,10 +62,10 @@ public class ProductosController {
         return ResponseEntity.ok(productosService.obtenerProductosPorProveedor(idProveedor));
     }
 
-//    @GetMapping("/categoria/{idCategoria}")
-//    public ResponseEntity<List<Productos>> obtenerProductosPorCategoria(@PathVariable Long idCategoria) {
-//        return ResponseEntity.ok(productosService.obtenerProductosPorCategoria(idCategoria));
-//    }
+    @GetMapping("/categoria/{idCategoria}")
+    public ResponseEntity<List<Productos>> obtenerProductosPorCategoria(@PathVariable Long idCategoria) {
+        return ResponseEntity.ok(productosService.obtenerProductosPorCategoria(idCategoria));
+    }
 
     @GetMapping("/bajo-stock/{stockMinimo}")
     public ResponseEntity<List<Productos>> obtenerProductosConBajoStock(@PathVariable Integer stockMinimo) {
