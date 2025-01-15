@@ -2,8 +2,11 @@ package org.example.proyecto_productos.Clientes.controller;
 
 import org.example.proyecto_productos.Clientes.model.Cliente;
 import org.example.proyecto_productos.Clientes.model.LoginRequest;
+import org.example.proyecto_productos.Clientes.model.UpdatePassword;
+import org.example.proyecto_productos.Clientes.repository.ClienteRepository;
 import org.example.proyecto_productos.Clientes.service.ClienteService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.AuthenticationException;
@@ -19,6 +22,9 @@ public class AuthController {
 
     @Autowired
     private ClienteService clienteService;
+
+    @Autowired
+    private ClienteRepository clienteRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -46,8 +52,20 @@ public class AuthController {
     }
 
     @PostMapping(value = "/signup", consumes = "application/json")
-    public Cliente createUser(@RequestBody Cliente cliente) {
+    public ResponseEntity<Cliente> createUser(@RequestBody Cliente cliente) {
         cliente.setPassword(passwordEncoder.encode(cliente.getPassword()));
-        return clienteService.createCliente(cliente);
+        return ResponseEntity.ok(clienteService.createCliente(cliente));
+    }
+
+    @PostMapping("/updatePassword")
+    public ResponseEntity<String> updatePassword(@RequestBody UpdatePassword updatePassword) {
+        Cliente cliente = clienteService.findByUsername(updatePassword.getUsername());
+        if (cliente != null && passwordEncoder.matches(updatePassword.getCurrentPassword(), cliente.getPassword())) {
+            cliente.setPassword(passwordEncoder.encode(updatePassword.getNewPassword()));
+            clienteRepository.save(cliente);
+            return ResponseEntity.ok("Contraseña actualizada con éxito.");
+        } else {
+            return ResponseEntity.status(400).body("La contraseña es incorrecta");
+        }
     }
 }

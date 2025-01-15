@@ -11,6 +11,7 @@ import org.example.proyecto_productos.Productos.service.ProductosService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 @Service
@@ -25,13 +26,17 @@ public class CarritoProductServImpl implements CarritoProductoService {
     @Autowired
     private final ProductosService productoService;
 
+    @Autowired
+    private final CarritoProductoRepository carritoRepository;
+
     public CarritoProductServImpl(
             CarritoProductoRepository repository,
-            ClienteService clienteService, ProductosService productoService
+            ClienteService clienteService, ProductosService productoService, CarritoProductoRepository carritoRepository
     ) {
         this.repository = repository;
         this.clienteService = clienteService;
         this.productoService = productoService;
+        this.carritoRepository = carritoRepository;
     }
 
     @Override
@@ -42,12 +47,21 @@ public class CarritoProductServImpl implements CarritoProductoService {
     }
 
     @Override
-    public CarritoProducto addToCart(CarritoProducto carritoProducto) {
-        Long idProducto = carritoProducto.getProducto().getIdProducto();
-        Productos producto = productoService.obtenerProductoPorId(idProducto);
-        if (producto.getStock() < carritoProducto.getCantidad()) {
-            throw new IllegalStateException("Stock insuficiente");
+    public Double getTotalProductsByCart(Long id) {
+        double totalProduct = 0.0;
+        List<CarritoProducto> carritoProductos = repository.findByCarritoIdCarrito(id);
+        for (CarritoProducto producto : carritoProductos) {
+            BigDecimal productPrice = producto.getProducto().getPrecioUnitario();
+            BigDecimal quantity = new BigDecimal(producto.getCantidad());
+            totalProduct += productPrice.multiply(quantity).doubleValue();
         }
+        return totalProduct;
+    }
+
+    @Override
+    public CarritoProducto addToCart(CarritoProducto carritoProducto) {
+        productExistsInCarrito(carritoProducto);
+        validStock(carritoProducto);
         return repository.save(carritoProducto);
     }
 
@@ -57,6 +71,11 @@ public class CarritoProductServImpl implements CarritoProductoService {
             carrito.getCarrito(), carrito.getProducto()
         );
         repository.delete(carritoProducto);
+    }
+
+    @Override
+    public Long countCarrito(Long idCarrito) {
+        return repository.countByCarritoIdCarrito(idCarrito);
     }
 
     @Override
@@ -71,5 +90,26 @@ public class CarritoProductServImpl implements CarritoProductoService {
         );
         carritoProducto.setCantidad(carrito.getCantidad());
         repository.save(carritoProducto);
+    }
+
+    public void productExistsInCarrito (CarritoProducto carritoProducto) {
+        Long idProducto = carritoProducto.getProducto().getIdProducto();
+        Productos producto = productoService.obtenerProductoPorId(idProducto);
+        CarritoProducto carrito = carritoRepository.findByCarritoAndProducto(
+            carritoProducto.getCarrito(), carritoProducto.getProducto()
+        );
+        if (carrito != null) {
+            throw new IllegalStateException(
+                producto.getNombreProducto() + " ya se encuentra en el carrito"
+            );
+        }
+    }
+
+    public void validStock(CarritoProducto carritoProducto) {
+        Long idProducto = carritoProducto.getProducto().getIdProducto();
+        Productos producto = productoService.obtenerProductoPorId(idProducto);
+        if (producto.getStock() < carritoProducto.getCantidad()) {
+            throw new IllegalStateException("Stock insuficiente");
+        }
     }
 }

@@ -52,8 +52,12 @@ public class ProductosServiceImpl implements ProductosService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Productos> listarProductos() {
+    public List<Productos> listarProductosActivos() {
+        return productosRepository.findByActivo(true);
+    }
+
+    @Override
+    public List<Productos> listarAllProductos() {
         return productosRepository.findAll();
     }
 

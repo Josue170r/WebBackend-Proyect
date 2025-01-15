@@ -27,9 +27,19 @@ public class CarritoProductoController {
         return service.getCartProductsByClient(idCliente);
     }
 
+    @GetMapping("/cart/get-total/")
+    public double getTotal(@RequestParam("idCarrito") Long idCarrito) {
+        return service.getTotalProductsByCart(idCarrito);
+    }
+
     @PostMapping("/cart/add")
     public CarritoProducto addCarritoProducto(@RequestBody CarritoProducto carritoProducto) {
         return service.addToCart(carritoProducto);
+    }
+
+    @GetMapping("/cart/count-items/")
+    public Long countCartItems(@RequestParam("idCarrito") Long idCarrito) {
+        return service.countCarrito(idCarrito);
     }
 
     @PostMapping("/cart/remove")

@@ -31,7 +31,7 @@ public class ClientesEmailService {
             Context context = new Context();
             context.setVariable("username", cliente.getUserName());
             context.setVariable("verification_code", verification_code);
-            String html = templateEngine.process("send_email_verification.html", context);
+            String html = templateEngine.process("clientes/send_email_verification.html", context);
             MimeMessage message = mailSender.createMimeMessage();
             MimeMessageHelper helper = new MimeMessageHelper(message, true);
             helper.setTo(cliente.getEmail());
