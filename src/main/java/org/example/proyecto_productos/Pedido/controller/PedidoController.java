@@ -10,14 +10,23 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/pedidos")
+@CrossOrigin(origins = {"*"})
 public class PedidoController {
 
     @Autowired
     private PedidoService pedidoService;
 
-    @PostMapping
-    public ResponseEntity<Pedido> createPedido(@RequestBody Pedido pedido) {
-        return ResponseEntity.ok(pedidoService.savePedido(pedido));
+    @PostMapping("/")
+    public ResponseEntity<Pedido> createPedido(
+        @RequestBody Pedido pedido,
+        @RequestParam("idCliente") Long idCliente
+    ) {
+        return ResponseEntity.ok(pedidoService.savePedido(pedido, idCliente));
+    }
+
+    @GetMapping("/by-cliente/")
+    public ResponseEntity<List<Pedido>> findByCliente(@RequestParam("idCliente") Long idCliente) {
+        return ResponseEntity.ok(pedidoService.getPedidosByClienteId(idCliente));
     }
 
     @GetMapping("/{id}")

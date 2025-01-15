@@ -1,17 +1,11 @@
-package org.example.proyecto_productos.Carrito_Producto.models;
+package org.example.proyecto_productos.Pedido.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotNull;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import org.example.proyecto_productos.Carrito.models.Carrito;
-import org.example.proyecto_productos.Pedido.model.Pedido;
+import lombok.*;
 import org.example.proyecto_productos.Productos.model.Productos;
 
 @Data
@@ -19,25 +13,21 @@ import org.example.proyecto_productos.Productos.model.Productos;
 @AllArgsConstructor
 @Builder
 @Entity
-@Table(name = "Carrito-Producto")
-public class CarritoProducto {
+@Table(name = "Pedido-Detalle")
+public class PedidoDetalle {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Long id;
 
     @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "carrito", nullable = false)
+    @JoinColumn(name = "pedido", nullable = false)
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
-    private Carrito carrito;
+    @ToString.Exclude
+    private Pedido pedido;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "producto", nullable = false)
     private Productos producto;
-
-    @ManyToOne(fetch = FetchType.EAGER)
-    @JoinColumn(name = "pedido")
-    @JsonIgnore
-    private Pedido pedido;
 
     @NotNull(message = "Cantidad no puede ser nula")
     @Min(value = 0, message = "Cantidad no puede ser negativa")

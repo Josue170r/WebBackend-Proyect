@@ -9,6 +9,7 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.example.proyecto_productos.Categorias.model.Categoria;
 import org.example.proyecto_productos.Proveedores.models.Proveedores;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
@@ -51,6 +52,10 @@ public class Productos implements Serializable {
     @Size(max = 255, message = "La URL de la imagen no puede superar los 255 caracteres")
     @Column(name = "imagenUrl", length = 255, nullable = false)
     private String imagenUrl;
+
+    @Column(name = "activo", nullable = false)
+    @ColumnDefault("true")
+    private Boolean activo;
 
     @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "categoria", nullable = false)

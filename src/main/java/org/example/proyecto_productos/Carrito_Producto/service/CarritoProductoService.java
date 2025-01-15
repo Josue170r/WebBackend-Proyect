@@ -6,7 +6,9 @@ import java.util.List;
 
 public interface CarritoProductoService {
     List<CarritoProducto> getCartProductsByClient(Long idCliente);
+    Double getTotalProductsByCart(Long id);
     CarritoProducto addToCart(CarritoProducto carritoProducto);
     void removeFromCart(CarritoProducto carrito);
+    Long countCarrito(Long idCliente);
     void updateQuantity(CarritoProducto carritoProducto);
 }

@@ -10,4 +10,6 @@ import java.util.List;
 public interface CarritoProductoRepository extends JpaRepository<CarritoProducto, Long> {
     List<CarritoProducto> findByCarritoIdCarrito(Long id);
     CarritoProducto findByCarritoAndProducto(Carrito carrito, Productos producto);
+    Long countByCarritoIdCarrito(Long id);
+    void deleteAllByCarritoIdCarrito(Long id);
 }
