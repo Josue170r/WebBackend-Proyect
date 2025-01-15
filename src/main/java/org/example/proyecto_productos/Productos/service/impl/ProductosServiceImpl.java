@@ -17,16 +17,10 @@ import java.util.Optional;
 public class ProductosServiceImpl implements ProductosService {
 
     private final ProductosRepository productosRepository;
-    private final ProveedoresRepository proveedoresRepository;
 
     @Override
     @Transactional
     public Productos guardarProducto(Productos producto) {
-        Long idProveedor = producto.getProveedor().getIdProveedor();
-        Optional<Proveedores> optProveedor = proveedoresRepository.findById(idProveedor);
-        Proveedores proveedor = optProveedor
-                .orElseThrow(() -> new RuntimeException("Proveedor no encontrado"));
-        producto.setProveedor(proveedor);
         return productosRepository.save(producto);
     }
 
@@ -36,10 +30,8 @@ public class ProductosServiceImpl implements ProductosService {
         Productos productoExistente = obtenerProductoPorId(id);
         productoExistente.setNombreProducto(producto.getNombreProducto());
         productoExistente.setDescripcionProducto(producto.getDescripcionProducto());
-        productoExistente.setPrecioUnitario(producto.getPrecioUnitario());
         productoExistente.setStock(producto.getStock());
-        //productoExistente.setCategoria(producto.getCategoria());
-        productoExistente.setProveedor(producto.getProveedor());
+        productoExistente.setImagenUrl(producto.getImagenUrl());
         return productosRepository.save(productoExistente);
     }
 
@@ -60,8 +52,12 @@ public class ProductosServiceImpl implements ProductosService {
     }
 
     @Override
-    @Transactional(readOnly = true)
-    public List<Productos> listarProductos() {
+    public List<Productos> listarProductosActivos() {
+        return productosRepository.findByActivo(true);
+    }
+
+    @Override
+    public List<Productos> listarAllProductos() {
         return productosRepository.findAll();
     }
 
@@ -71,11 +67,11 @@ public class ProductosServiceImpl implements ProductosService {
         return productosRepository.findByProveedorIdProveedor(idProveedor);
     }
 
-//    @Override
-//    @Transactional(readOnly = true)
-//    public List<Productos> obtenerProductosPorCategoria(Long idCategoria) {
-//        return productosRepository.findByCategoriaIdCategoria(idCategoria);
-//    }
+    @Override
+    @Transactional(readOnly = true)
+    public List<Productos> obtenerProductosPorCategoria(Long idCategoria) {
+        return productosRepository.findByCategoriaIdCategoria(idCategoria);
+    }
 
     @Override
     @Transactional(readOnly = true)

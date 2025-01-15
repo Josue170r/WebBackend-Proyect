@@ -1,5 +1,6 @@
 package org.example.proyecto_productos.Proveedores.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
@@ -40,18 +41,7 @@ public class Proveedores implements Serializable {
     private String urlProveedor;
 
     @Column(name = "activo", nullable = false)
-    private Boolean activo; // Cambiado a Boolean para mayor claridad
-
-    @OneToMany(fetch = FetchType.LAZY, mappedBy = "proveedor")
-    @JsonIgnoreProperties(value = {"productos", "proveedor", "handler", "hibernateLazyInitializer"}, allowSetters = true)
-    private List<Productos> productos;
-
-    public void setProductos(List<Productos> productos) {
-        this.productos = productos;
-        for (Productos producto : productos) {
-            producto.setProveedor(this);
-        }
-    }
+    private Boolean activo;
 
     @Override
     public String toString() {

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Confirmación de Compra - ElectroShop</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            color: #333;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            max-width: 700px;
+            margin: 20px;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 15px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+        }
+
+        header {
+            margin-bottom: 20px;
+        }
+
+        h1 {
+            font-size: 30px;
+            color: #007bff;
+            margin-bottom: 10px;
+        }
+
+        h2 {
+            font-size: 22px;
+            color: #333;
+            margin-top: 20px;
+        }
+
+        h3 {
+            font-size: 20px;
+            color: #007bff;
+            margin-top: 20px;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            font-size: 16px;
+            color: #555;
+        }
+
+        .order-summary ul li {
+            margin: 10px 0;
+        }
+
+        .order-summary strong {
+            font-weight: bold;
+            color: #333;
+        }
+
+        .order-summary {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .order-details {
+            margin-top: 20px;
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            border-radius: 8px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 10px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #f8f8f8;
+            color: #333;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 25px;
+            text-decoration: none;
+            border-radius: 5px;
+            margin-top: 20px;
+            font-size: 16px;
+        }
+
+        .button-container {
+            display: inline-block;
+            margin-top: 20px;
+            background-color: #007bff;
+            color: #fff;
+            padding: 12px 25px;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+
+        .button-container a {
+            color: #fff;
+            text-decoration: none;
+            display: block;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <header>
+        <a href="https://ibb.co/rpLb3qS">
+            <img src="https://i.ibb.co/YdKDXJM/logo-Electro-Shop-1.png" alt="logo-Electro-Shop-1" height="150" width="150">
+        </a>
+    </header>
+    <main>
+        <h1>¡Tu compra está en camino!</h1>
+        <p>Has adquirido <span th:text="${pedido.getProductos().size()}">3</span> productos. <br>
+            Te notificaremos cuando estén listos para ser entregados.</p>
+        <h2>Resumen de tu pedido</h2>
+        <div class="order-summary">
+            <ul>
+                <li><strong>Dirección de envío:</strong><br>
+                    <span th:text="${direccionString}"></span><br>
+                    <span th:text="${cliente.getNombre()}"></span> - <span th:text="${cliente.getTelefono()}"></span>
+                </li>
+                <li><strong>Pagaste:</strong> <span th:text="${pedido.getPrecioTotal()}"></span></li>
+            </ul>
+        </div>
+        <div class="order-details">
+            <h3>Detalles del Pedido</h3>
+            <table>
+                <thead>
+                <tr>
+                    <th>Producto</th>
+                    <th>Cantidad</th>
+                    <th>Precio</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="producto : ${pedido.getProductos()}">
+                    <td th:text="${producto.getProducto().getNombreProducto()}"></td>
+                    <td th:text="${producto.getCantidad()}"></td>
+                    <td th:text="${producto.getProducto().getPrecioUnitario()}"></td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="button-container">
+            <a href="#">Ver más detalles del pedido</a>
+        </div>
+    </main>
+</div>
+</body>
+</html>

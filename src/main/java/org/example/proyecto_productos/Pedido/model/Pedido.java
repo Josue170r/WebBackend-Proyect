@@ -1,18 +1,17 @@
 package org.example.proyecto_productos.Pedido.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.*;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import org.example.proyecto_productos.Carrito.models.Carrito;
 import org.example.proyecto_productos.Clientes.model.Cliente;
 
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @NoArgsConstructor
@@ -22,18 +21,12 @@ import java.util.Date;
 @Table(name = "Pedido")
 public class Pedido implements Serializable {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long idPedido;
 
     @NotNull(message = "El número de folio no puede estar vacío")
     @Column(name = "numeroFolio", nullable = false, unique = true)
-    private Integer numeroFolio;
-
-    @NotNull(message = "El carrito es obligatorio")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idCarrito", nullable = false)
-    @JsonIgnoreProperties(value = {"pedidos", "handler", "hibernateLazyInitializer"}, allowSetters = true)
-    private Carrito carrito;
+    private String numeroFolio;
 
     @NotNull(message = "El precio total no puede estar vacío")
     @DecimalMin(value = "0.0", inclusive = false, message = "El precio total debe ser mayor a 0")
@@ -57,8 +50,10 @@ public class Pedido implements Serializable {
     private String estatusPedido;
 
     @NotNull(message = "El cliente es obligatorio")
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "idCliente", nullable = false)
-    @JsonIgnoreProperties(value = {"pedidos", "handler", "hibernateLazyInitializer"}, allowSetters = true)
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "cliente", nullable = false)
     private Cliente cliente;
+
+    @OneToMany(mappedBy = "pedido")
+    private List<PedidoDetalle> productos;
 }

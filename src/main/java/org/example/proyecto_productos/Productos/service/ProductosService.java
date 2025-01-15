@@ -8,9 +8,10 @@ public interface ProductosService {
     Productos actualizarProducto(Long id, Productos producto);
     void eliminarProducto(Long id);
     Productos obtenerProductoPorId(Long id);
-    List<Productos> listarProductos();
+    List<Productos> listarProductosActivos();
+    List<Productos> listarAllProductos();
     List<Productos> obtenerProductosPorProveedor(Long idProveedor);
-    //    List<Productos> obtenerProductosPorCategoria(Long idCategoria);
+    List<Productos> obtenerProductosPorCategoria(Long idCategoria);
     List<Productos> obtenerProductosConBajoStock(Integer stockMinimo);
     void actualizarStock(Long id, Integer cantidad);
 }
