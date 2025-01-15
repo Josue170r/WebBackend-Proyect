@@ -9,12 +9,13 @@ import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/v1")
+@CrossOrigin(origins = {"*"})
 public class VerificationTokenController {
 
     @Autowired
     private VerificationTokenService verificationTokenService;
 
-    @PostMapping("/send-token")
+    @GetMapping("/send-token")
     @ResponseStatus(HttpStatus.OK)
     public ResponseEntity<?> sendVerificationCode(@RequestParam("email") String email) {
         verificationTokenService.sendVerificationToken(email);
