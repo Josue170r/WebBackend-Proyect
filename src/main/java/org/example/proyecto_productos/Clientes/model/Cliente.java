@@ -45,8 +45,8 @@ public class Cliente implements Serializable {
     private String userName;
 
     @NotBlank(message = "El nombre no puede estar vacío")
-    @Size(max = 45, message = "El nombre no debe exceder los 45 caracteres")
-    @Column(name = "nombre", length = 45, nullable = false)
+    @Size(max = 100, message = "El nombre no debe exceder los 45 caracteres")
+    @Column(name = "nombre", length = 100, nullable = false)
     private String nombre;
 
     @NotBlank(message = "Los apellidos no pueden estar vacíos")

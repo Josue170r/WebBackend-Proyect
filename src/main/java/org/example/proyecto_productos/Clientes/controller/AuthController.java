@@ -51,7 +51,7 @@ public class AuthController {
         }
     }
 
-    @PostMapping(value = "/signup", consumes = "application/json")
+    @PostMapping("/signup")
     public ResponseEntity<Cliente> createUser(@RequestBody Cliente cliente) {
         cliente.setPassword(passwordEncoder.encode(cliente.getPassword()));
         return ResponseEntity.ok(clienteService.createCliente(cliente));

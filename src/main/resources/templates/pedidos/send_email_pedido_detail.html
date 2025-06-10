@@ -144,7 +144,7 @@
                     <span th:text="${direccionString}"></span><br>
                     <span th:text="${cliente.getNombre()}"></span> - <span th:text="${cliente.getTelefono()}"></span>
                 </li>
-                <li><strong>Pagaste:</strong> <span th:text="${pedido.getPrecioTotal()}"></span></li>
+                <li><strong>Pagaste:</strong> <span th:text="'$' + ${pedido.getPrecioTotal()}"></span></li>
             </ul>
         </div>
         <div class="order-details">
@@ -161,7 +161,7 @@
                 <tr th:each="producto : ${pedido.getProductos()}">
                     <td th:text="${producto.getProducto().getNombreProducto()}"></td>
                     <td th:text="${producto.getCantidad()}"></td>
-                    <td th:text="${producto.getProducto().getPrecioUnitario()}"></td>
+                    <td th:text="'$' + ${producto.getProducto().getPrecioUnitario()}"></td>
                 </tr>
                 </tbody>
             </table>
